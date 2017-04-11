@@ -20,6 +20,17 @@
 
 Row::Row(int size, int nextSize) : nodes(size, Node(nextSize)) { }
 
+size_t Row::numNodes() const
+{
+	return nodes.size();
+}
+
+size_t Row::numNextNodes() const
+{
+	assert(nodes.size() > 0);
+	return nodes[0].numLinks();
+}
+
 void Row::randomize()
 {
 	for (auto &i : nodes)

@@ -32,9 +32,7 @@ public:
 private:
 	static float squash(float val);
 	float calcNode(const Row &prevRow, const FloatVec &prevVals, int id);
-	FloatVec calcNextVals(const Row &prevRow, const FloatVec &prevVals, int numNext);
+	FloatVec calcNextVals(const Row &prevRow, const FloatVec &prevVals);
 
-	int numInputs, numHidden, numLayers, numOutputs;
-	Row inputs;
-	std::vector<Row> hiddenLayers;
+	std::vector<Row> layers;
 };

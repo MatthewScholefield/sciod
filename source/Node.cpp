@@ -26,6 +26,11 @@ static float randFloat(float min, float max)
 	return min + ((max - min) * rand()) / RAND_MAX;
 }
 
+size_t Node::numLinks() const
+{
+	return weights.size();
+}
+
 void Node::randomize()
 {
 	for (float &i : weights)

@@ -22,18 +22,17 @@
 
 using namespace std;
 
-NeuralNet::NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs) :
-numInputs(numInputs), numHidden(numHidden), numLayers(numLayers),
-numOutputs(numOutputs), inputs(numInputs, numHidden),
-hiddenLayers(numLayers - 1, Row(numHidden, numHidden))
+NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs)
 {
-	hiddenLayers.emplace_back(numHidden, numOutputs);
+	layers.emplace_back(numInputs, numHidden);
+	for (int i = 0; i < numHidLayers - 1; ++i)
+		layers.emplace_back(numHidden, numHidden);
+	layers.emplace_back(numHidden, numOutputs);
 }
 
 void NeuralNet::randomize()
 {
-	inputs.randomize();
-	for (auto &i : hiddenLayers)
+	for (auto &i : layers)
 		i.randomize();
 }
 
@@ -45,25 +44,24 @@ float NeuralNet::squash(float val)
 float NeuralNet::calcNode(const Row &prevRow, const FloatVec &prevVals, int id)
 {
 	float activation = 0.f;
+	assert(prevVals.size() == prevRow.numNodes());
 	for (int srcId = 0; srcId < prevVals.size(); ++srcId)
 		activation += prevVals[srcId] * prevRow.getLink(srcId, id);
 	return activation;
 }
 
-FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals, int numNext)
+FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals)
 {
-	FloatVec nextInputs(numNext, 0.f);
-	for (int id = 0; id < numNext; ++id)
-		nextInputs[id] = squash(calcNode(prevRow, prevVals, id));
-	return nextInputs;
+	FloatVec nextVals(prevRow.numNextNodes(), 0.f);
+	for (int id = 0; id < prevRow.numNextNodes(); ++id)
+		nextVals[id] = squash(calcNode(prevRow, prevVals, id));
+	return nextVals;
 }
 
 FloatVec NeuralNet::calcProb(const FloatVec &inputVals)
 {
-	assert(inputVals.size() == numInputs);
-	FloatVec vals = calcNextVals(inputs, inputVals, numInputs);
-	for (int layerId = 0; layerId < numLayers - 1; ++layerId)
-		vals = calcNextVals(hiddenLayers[layerId], vals, numHidden);
-	vals = calcNextVals(hiddenLayers[numLayers - 1], vals, numOutputs);
+	FloatVec vals = inputVals;
+	for (int i = 0; i < layers.size(); ++i)
+		vals = calcNextVals(layers[i], vals);
 	return vals;
 }

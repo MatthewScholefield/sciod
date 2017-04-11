@@ -18,6 +18,7 @@
 #pragma once
 
 #include <vector>
+#include <cstdlib>
 
 #include "Node.hpp"
 
@@ -25,6 +26,8 @@ class Row
 {
 public:
 	Row(int size, int nextSize);
+	size_t numNodes() const;
+	size_t numNextNodes() const;
 	void randomize();
 	float getLink(int src, int dest) const;
 

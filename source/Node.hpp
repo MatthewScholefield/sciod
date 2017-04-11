@@ -18,6 +18,7 @@
 #pragma once
 
 #include <vector>
+#include <cstdlib>
 
 #include "FloatVec.hpp"
 
@@ -29,6 +30,7 @@ class Node
 {
 public:
 	Node(int numConnections);
+	size_t numLinks() const;
 	void randomize();
 	float getLink(int id) const;
 
