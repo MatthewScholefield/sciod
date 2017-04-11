@@ -19,6 +19,8 @@
 
 #include <vector>
 
+#include "FloatVec.hpp"
+
 /*
  * Represents a single point
  * Contains connection weights to the next nodes
@@ -31,5 +33,5 @@ public:
 	float getLink(int id) const;
 
 private:
-	std::vector<float> weights;
+	FloatVec weights;
 };

@@ -42,7 +42,7 @@ float NeuralNet::squash(float val)
 	return 1.f / (1 + exp(-val));
 }
 
-float NeuralNet::calcNode(const Row &prevRow, const vector<float> &prevVals, int id)
+float NeuralNet::calcNode(const Row &prevRow, const FloatVec &prevVals, int id)
 {
 	float activation = 0.f;
 	for (int srcId = 0; srcId < prevVals.size(); ++srcId)
@@ -50,18 +50,18 @@ float NeuralNet::calcNode(const Row &prevRow, const vector<float> &prevVals, int
 	return activation;
 }
 
-vector<float> NeuralNet::calcNextVals(const Row &prevRow, const vector<float> &prevVals, int numNext)
+FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals, int numNext)
 {
-	vector<float> nextInputs(numNext, 0.f);
+	FloatVec nextInputs(numNext, 0.f);
 	for (int id = 0; id < numNext; ++id)
 		nextInputs[id] = squash(calcNode(prevRow, prevVals, id));
 	return nextInputs;
 }
 
-vector<float> NeuralNet::calcProb(const vector<float> &inputVals)
+FloatVec NeuralNet::calcProb(const FloatVec &inputVals)
 {
 	assert(inputVals.size() == numInputs);
-	vector<float> vals = calcNextVals(inputs, inputVals, numInputs);
+	FloatVec vals = calcNextVals(inputs, inputVals, numInputs);
 	for (int layerId = 0; layerId < numLayers - 1; ++layerId)
 		vals = calcNextVals(hiddenLayers[layerId], vals, numHidden);
 	vals = calcNextVals(hiddenLayers[numLayers - 1], vals, numOutputs);

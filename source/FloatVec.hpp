@@ -18,23 +18,5 @@
 #pragma once
 
 #include <vector>
-#include "Row.hpp"
 
-#include "FloatVec.hpp"
-
-class NeuralNet
-{
-public:
-	NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs);
-	void randomize();
-	FloatVec calcProb(const FloatVec &inputVals);
-
-private:
-	static float squash(float val);
-	float calcNode(const Row &prevRow, const FloatVec &prevVals, int id);
-	FloatVec calcNextVals(const Row &prevRow, const FloatVec &prevVals, int numNext);
-
-	int numInputs, numHidden, numLayers, numOutputs;
-	Row inputs;
-	std::vector<Row> hiddenLayers;
-};
+using FloatVec = std::vector<float>;
