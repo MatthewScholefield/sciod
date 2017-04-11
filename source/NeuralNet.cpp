@@ -22,10 +22,13 @@
 
 using namespace std;
 
-NeuralNet::NeuralNet(int numInputs, int numHidden, int numOutputs, int numLayers) :
-numInputs(numInputs), numHidden(numHidden), numOutputs(numOutputs),
-numLayers(numLayers), inputs(numInputs, numHidden),
-hiddenLayers(numLayers, Row(numHidden, numOutputs)) { }
+NeuralNet::NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs) :
+numInputs(numInputs), numHidden(numHidden), numLayers(numLayers),
+numOutputs(numOutputs), inputs(numInputs, numHidden),
+hiddenLayers(numLayers - 1, Row(numHidden, numHidden))
+{
+	hiddenLayers.emplace_back(numHidden, numOutputs);
+}
 
 void NeuralNet::randomize()
 {
@@ -58,7 +61,7 @@ vector<float> NeuralNet::calcNextVals(const Row &prevRow, const vector<float> &p
 vector<float> NeuralNet::calcProb(const vector<float> &inputVals)
 {
 	assert(inputVals.size() == numInputs);
-	vector<float> vals = calcNextVals(inputs, inputVals, numHidden);
+	vector<float> vals = calcNextVals(inputs, inputVals, numInputs);
 	for (int layerId = 0; layerId < numLayers - 1; ++layerId)
 		vals = calcNextVals(hiddenLayers[layerId], vals, numHidden);
 	vals = calcNextVals(hiddenLayers[numLayers - 1], vals, numOutputs);

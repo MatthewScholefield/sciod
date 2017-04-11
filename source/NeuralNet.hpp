@@ -23,7 +23,7 @@
 class NeuralNet
 {
 public:
-	NeuralNet(int numInputs, int numHidden, int numOutputs, int numLayers);
+	NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs);
 	void randomize();
 	std::vector<float> calcProb(const std::vector<float> &inputVals);
 
@@ -31,8 +31,8 @@ private:
 	static float squash(float val);
 	float calcNode(const Row &prevRow, const std::vector<float> &prevVals, int id);
 	std::vector<float> calcNextVals(const Row &prevRow, const std::vector<float> &prevVals, int numNext);
-	
-	int numInputs, numHidden, numOutputs, numLayers;
+
+	int numInputs, numHidden, numLayers, numOutputs;
 	Row inputs;
 	std::vector<Row> hiddenLayers;
 };
