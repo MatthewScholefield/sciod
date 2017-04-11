@@ -1,0 +1,4 @@
+/build/
+/dist/
+.dep.inc
+nbproject/private/
