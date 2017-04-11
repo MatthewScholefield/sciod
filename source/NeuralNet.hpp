@@ -24,6 +24,7 @@ class NeuralNet
 {
 public:
 	NeuralNet(int numInputs, int numHidden, int numOutputs, int numLayers);
+	void randomize();
 	std::vector<float> calcProb(const std::vector<float> &inputVals);
 
 private:

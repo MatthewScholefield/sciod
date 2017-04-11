@@ -24,7 +24,9 @@ using namespace std;
 
 TEST_CASE("Simple 1", "[simple-1]")
 {
+	srand(time(nullptr));
 	NeuralNet net(2,2,2,3);
+	net.randomize();
 	auto prob = net.calcProb({0.0f, 1.0f});
 	stringstream ss;
 	ss << "{" << prob[0];

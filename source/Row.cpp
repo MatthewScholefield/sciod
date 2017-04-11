@@ -20,6 +20,12 @@
 
 Row::Row(int size, int nextSize) : nodes(size, Node(nextSize)) { }
 
+void Row::randomize()
+{
+	for (auto &i : nodes)
+		i.randomize();
+}
+
 float Row::getLink(int src, int dest) const
 {
 	assert(src < nodes.size());

@@ -27,6 +27,13 @@ numInputs(numInputs), numHidden(numHidden), numOutputs(numOutputs),
 numLayers(numLayers), inputs(numInputs, numHidden),
 hiddenLayers(numLayers, Row(numHidden, numOutputs)) { }
 
+void NeuralNet::randomize()
+{
+	inputs.randomize();
+	for (auto &i : hiddenLayers)
+		i.randomize();
+}
+
 float NeuralNet::squash(float val)
 {
 	return 1.f / (1 + exp(-val));

@@ -27,6 +27,7 @@ class Node
 {
 public:
 	Node(int numConnections);
+	void randomize();
 	float getLink(int id) const;
 
 private:

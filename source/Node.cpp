@@ -16,9 +16,21 @@
  */
 
 #include <cassert>
+#include <cstdlib>
 #include "Node.hpp"
 
 Node::Node(int numLinks) : weights(numLinks, 0.f) { }
+
+static float randFloat(float min, float max)
+{
+	return min + ((max - min) * rand()) / RAND_MAX;
+}
+
+void Node::randomize()
+{
+	for (float &i : weights)
+		i = randFloat(-1.f, 1.f);
+}
 
 float Node::getLink(int id) const
 {

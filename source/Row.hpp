@@ -25,6 +25,7 @@ class Row
 {
 public:
 	Row(int size, int nextSize);
+	void randomize();
 	float getLink(int src, int dest) const;
 
 private:
