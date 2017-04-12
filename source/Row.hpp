@@ -29,6 +29,7 @@ public:
 	size_t numNodes() const;
 	size_t numNextNodes() const;
 	void randomize();
+	float &getLinkRef(int src, int dest);
 	float getLink(int src, int dest) const;
 
 private:

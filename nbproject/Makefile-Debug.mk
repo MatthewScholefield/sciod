@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/source/FloatVec.o \
 	${OBJECTDIR}/source/NeuralNet.o \
 	${OBJECTDIR}/source/Node.o \
 	${OBJECTDIR}/source/Row.o
@@ -75,6 +76,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsciod.${CND_DLIB_EXT}: ${OBJECTFIL
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsciod.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
 
+${OBJECTDIR}/source/FloatVec.o: source/FloatVec.cpp
+	${MKDIR} -p ${OBJECTDIR}/source
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/source/FloatVec.o source/FloatVec.cpp
+
 ${OBJECTDIR}/source/NeuralNet.o: source/NeuralNet.cpp
 	${MKDIR} -p ${OBJECTDIR}/source
 	${RM} "$@.d"
@@ -113,6 +119,19 @@ ${TESTDIR}/tests/simpleTests.o: tests/simpleTests.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -std=c++14 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/simpleTests.o tests/simpleTests.cpp
 
+
+${OBJECTDIR}/source/FloatVec_nomain.o: ${OBJECTDIR}/source/FloatVec.o source/FloatVec.cpp 
+	${MKDIR} -p ${OBJECTDIR}/source
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/source/FloatVec.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -std=c++14 -fPIC  -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/source/FloatVec_nomain.o source/FloatVec.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/source/FloatVec.o ${OBJECTDIR}/source/FloatVec_nomain.o;\
+	fi
 
 ${OBJECTDIR}/source/NeuralNet_nomain.o: ${OBJECTDIR}/source/NeuralNet.o source/NeuralNet.cpp 
 	${MKDIR} -p ${OBJECTDIR}/source

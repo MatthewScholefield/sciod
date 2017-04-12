@@ -37,6 +37,12 @@ void Row::randomize()
 		i.randomize();
 }
 
+float &Row::getLinkRef(int src, int dest)
+{
+	assert(src < nodes.size());
+	return nodes[src].getLinkRef(dest);
+}
+
 float Row::getLink(int src, int dest) const
 {
 	assert(src < nodes.size());

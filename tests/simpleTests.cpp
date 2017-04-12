@@ -17,21 +17,78 @@
 
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
 #include "catch.hpp"
 #include "source/NeuralNet.hpp"
 
 using namespace std;
 
+void interact(const NeuralNet &net)
+{
+	cout << "Enter " << net.getNumInputs() << " inputs." << endl;
+	cout << "(q to Quit)" << endl;
+	while (1)
+	{
+		FloatVec inputs;
+		while (inputs.size() < net.getNumInputs())
+		{
+			cout << ": ";
+			string query;
+			getline(cin, query);
+			try
+			{
+				float val = stof(query);
+				if (val >= 0.f && val <= 1.f)
+					inputs.push_back(val);
+				else
+					cout << "Value must be between 0.0 and 1.0." << endl;
+
+			}
+			catch (...)
+			{
+				if (query.compare("q") == 0)
+					return;
+
+				cout << "Error parsing " << query << endl;
+			}
+		}
+		auto outputs = net.calcProb(inputs);
+		if (outputs.size() == 1)
+			cout << outputs[0] << endl;
+		else
+		{
+			cout << "{" << outputs[0];
+			for (auto it = outputs.begin() + 1; it != outputs.end(); ++it)
+				cout << ", " << *it;
+			cout << "}" << endl;
+		}
+	}
+}
+
 TEST_CASE("Simple 1", "[simple-1]")
 {
 	srand(time(nullptr));
-	NeuralNet net(2,2,2,3);
+	NeuralNet net(2, 5, 1, 1);
 	net.randomize();
-	auto prob = net.calcProb({0.0f, 1.0f});
-	stringstream ss;
-	ss << "{" << prob[0];
-	for (auto it = prob.begin() + 1; it != prob.end(); ++it)
-		ss << ", " << *it;
-	ss << "}" << endl;
-	cout << ss.str() << endl;
+	net.backPropogate({
+		{
+			{0, 0},
+			{0}
+		},
+		{
+			{0, 1},
+			{1}
+		},
+		{
+			{1, 0},
+			{1}
+		},
+		{
+			{1, 1},
+			{0}
+		}
+	}, 0.0001, 4);
+
+	interact(net);
 }

@@ -15,37 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include <cstdlib>
-#include "Node.hpp"
+#include "FloatVec.hpp"
 
-Node::Node(int numLinks) : weights(numLinks, 0.f) { }
-
-static float randFloat(float min, float max)
-{
-	return min + ((max - min) * rand()) / RAND_MAX;
-}
-
-size_t Node::numLinks() const
-{
-	return weights.size();
-}
-
-void Node::randomize()
-{
-	for (float &i : weights)
-		i = randFloat(-1.f, 1.f);
-}
-
-float &Node::getLinkRef(int id)
-{
-	assert(id < weights.size());
-	return weights[id];
-}
-
-float Node::getLink(int id) const
-{
-	assert(id < weights.size());
-	return weights[id];
-}
-
+FloatVecIO::FloatVecIO(const FloatVec& in, const FloatVec& out) :
+in(in), out(out) { }

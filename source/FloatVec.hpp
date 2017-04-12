@@ -20,3 +20,10 @@
 #include <vector>
 
 using FloatVec = std::vector<float>;
+using FloatVec2D = std::vector<FloatVec>;
+
+struct FloatVecIO
+{
+	FloatVecIO(const FloatVec &in, const FloatVec &out);
+	FloatVec in, out;
+};

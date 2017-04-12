@@ -32,6 +32,7 @@ public:
 	Node(int numConnections);
 	size_t numLinks() const;
 	void randomize();
+	float &getLinkRef(int id);
 	float getLink(int id) const;
 
 private:
