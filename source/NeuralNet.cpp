@@ -136,8 +136,9 @@ void NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, fl
 {
 	float learningRate = initLearningRate;
 	clock_t begin = clock();
+	clock_t calcStart = clock();
 	float prevError = -1.f;
-	while (1)
+	while(1)
 	{
 		float error = 0.f;
 		for (auto &i : vals)
@@ -149,11 +150,14 @@ void NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, fl
 
 		clock_t end = clock();
 		double elapsed = double(end - begin) / CLOCKS_PER_SEC;
+		double totalElapsed = double(end - calcStart) / CLOCKS_PER_SEC;
 		if (elapsed > 0.5)
 		{
 			cout << "Error: " << error << endl;
 			begin = end;
 		}
+		if (totalElapsed > 100.f)
+			break;
 
 		if (error < maxError)
 			break;
