@@ -114,7 +114,7 @@ float NeuralNet::backPropogateStep(const FloatVecIO &vals, float learningRate)
 	}
 
 	// Use deriv calculations to adjust link weights
-	for (int rowId = layers.size() - 1; rowId >= 1; --rowId)
+	for (int rowId = layers.size() - 1; rowId >= 0; --rowId)
 	{
 		Row &row = layers[rowId];
 		for (int src = 0; src < row.numNodes(); ++src)
@@ -132,35 +132,22 @@ float NeuralNet::backPropogateStep(const FloatVecIO &vals, float learningRate)
 	return error;
 }
 
-void NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, float initLearningRate)
+/* 
+ * Returns Epoch
+ */
+long NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, float learningRate)
 {
-	float learningRate = initLearningRate;
-	clock_t begin = clock();
-	clock_t calcStart = clock();
-	float prevError = -1.f;
-	while(1)
+	long epoch = 0;
+	while (1)
 	{
+		++epoch;
+
 		float error = 0.f;
 		for (auto &i : vals)
 			error += backPropogateStep(i, learningRate);
-		
-		if (error == prevError)
-			learningRate = 2 * initLearningRate * (rand() / (float) RAND_MAX);
-		prevError = error;
-
-		clock_t end = clock();
-		double elapsed = double(end - begin) / CLOCKS_PER_SEC;
-		double totalElapsed = double(end - calcStart) / CLOCKS_PER_SEC;
-		if (elapsed > 0.5)
-		{
-			cout << "Error: " << error << endl;
-			begin = end;
-		}
-		if (totalElapsed > 100.f)
-			break;
 
 		if (error < maxError)
-			break;
+			return epoch;
 	}
 }
 
