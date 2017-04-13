@@ -31,12 +31,12 @@ public:
 	int getNumInputs() const;
 	int getNumOutputs() const;
 	void randomize();
-	long backPropogate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f);
+	long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f);
 	FloatVec2D calcProbFull(const FloatVec &inputVals) const;
 	FloatVec calcProb(const FloatVec &inputVals) const;
 
 private:
-	float backPropogateStep(const FloatVecIO &vals, float learningRate);
+	float backPropagateStep(const FloatVecIO &vals, float learningRate);
 	static float squash(float val);
 	float calcNode(const Row &prevRow, const FloatVec &prevVals, int id) const;
 	FloatVec calcNextVals(const Row &prevRow, const FloatVec &prevVals) const;

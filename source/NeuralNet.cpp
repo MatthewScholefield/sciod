@@ -122,7 +122,7 @@ FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals) c
 
 // Returns initial error
 
-float NeuralNet::backPropogateStep(const FloatVecIO &vals, float learningRate)
+float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 {
 	assert(vals.out.size() == layers.back().numNextNodes());
 	FloatVec2D nodeProb = calcProbFull(vals.in);
@@ -183,7 +183,7 @@ float NeuralNet::backPropogateStep(const FloatVecIO &vals, float learningRate)
 /* 
  * Returns Epoch
  */
-long NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, float learningRate)
+long NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate)
 {
 	long epoch = 0;
 	while (1)
@@ -192,7 +192,7 @@ long NeuralNet::backPropogate(const vector<FloatVecIO> &vals, float maxError, fl
 
 		float error = 0.f;
 		for (auto &i : vals)
-			error += backPropogateStep(i, learningRate);
+			error += backPropagateStep(i, learningRate);
 
 		if (error < maxError)
 			return epoch;

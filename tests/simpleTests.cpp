@@ -71,7 +71,7 @@ TEST_CASE("Simple 1", "[simple-1]")
 	srand(time(nullptr));
 	NeuralNet net(2, 5, 1, 1);
 	net.randomize();
-	net.backPropogate({
+	net.backPropagate({
 		{
 			{0, 0},
 			{0}
