@@ -20,6 +20,7 @@
 #include <vector>
 #include <cassert>
 #include <valarray>
+#include <sstream>
 #include "NeuralNet.hpp"
 
 using namespace std;
@@ -30,6 +31,53 @@ NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutp
 	for (int i = 0; i < numHidLayers - 1; ++i)
 		layers.emplace_back(numHidden, numHidden);
 	layers.emplace_back(numHidden, numOutputs);
+}
+
+string NeuralNet::toString() const
+{
+	const char startChar = 'a';
+	const char endChar = 'z';
+	const int numChars = endChar - startChar;
+	
+	/*
+	 * Returns a string unique to that position
+	 */
+	auto nodeStr = [&](int rowId, int nodeNum) -> string
+	{
+		int diff = min(rowId, 1) * getNumInputs() + max(0, rowId - 1) * layers[1].numNodes() + nodeNum;
+		if (diff > numChars)
+			return string() + char(startChar + diff / numChars - 1) + char(startChar + diff % numChars);
+		return string() + char(startChar + diff);
+	};
+	
+	stringstream ss;
+	bool moreNodes = true;
+	for (int nodeNum = 0; moreNodes; ++nodeNum)
+	{
+		moreNodes = false;
+		for (int rowId = 0; rowId <= layers.size(); ++rowId)
+		{
+			ss << '\t';
+			int size = rowId == layers.size() ? layers[rowId - 1].numNextNodes() : layers[rowId].numNodes();
+			if (nodeNum < size)
+			{
+				moreNodes = true;
+				ss << nodeStr(rowId, nodeNum);
+			}
+		}
+		ss << endl;
+	}
+	ss << endl;
+
+	for (int rowId = 0; rowId < layers.size(); ++rowId)
+	{
+		auto &row = layers[rowId];
+		for (int src = 0; src < row.numNodes(); ++src)
+			for (int dest = 0; dest < row.numNextNodes(); ++dest)
+				ss << nodeStr(rowId, src) << " - " << nodeStr(rowId + 1, dest) << ": "
+				<< row.getLink(src, dest) << endl;
+	}
+	return ss.str();
 }
 
 int NeuralNet::getNumInputs() const

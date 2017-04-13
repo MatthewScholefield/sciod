@@ -18,6 +18,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "Row.hpp"
 
 #include "FloatVec.hpp"
@@ -26,6 +27,7 @@ class NeuralNet
 {
 public:
 	NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs);
+	std::string toString() const;
 	int getNumInputs() const;
 	int getNumOutputs() const;
 	void randomize();
