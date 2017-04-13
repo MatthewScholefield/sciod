@@ -50,6 +50,7 @@ TESTFILES= \
 # Test Object Files
 TESTOBJECTFILES= \
 	${TESTDIR}/tests/catch.o \
+	${TESTDIR}/tests/intentTests.o \
 	${TESTDIR}/tests/simpleTests.o
 
 # C Compiler Flags
@@ -103,7 +104,7 @@ ${OBJECTDIR}/source/Row.o: source/Row.cpp
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/catch.o ${TESTDIR}/tests/simpleTests.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/catch.o ${TESTDIR}/tests/intentTests.o ${TESTDIR}/tests/simpleTests.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
 
@@ -112,6 +113,12 @@ ${TESTDIR}/tests/catch.o: tests/catch.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -std=c++14 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/catch.o tests/catch.cpp
+
+
+${TESTDIR}/tests/intentTests.o: tests/intentTests.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -std=c++14 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/intentTests.o tests/intentTests.cpp
 
 
 ${TESTDIR}/tests/simpleTests.o: tests/simpleTests.cpp 
