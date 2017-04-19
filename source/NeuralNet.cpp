@@ -61,10 +61,10 @@ string NeuralNet::toString() const
 	for (int nodeNum = 0; moreNodes; ++nodeNum)
 	{
 		moreNodes = false;
-		for (int rowId = 0; rowId <= layers.size(); ++rowId)
+		for (int rowId = 0; rowId < layers.size(); ++rowId)
 		{
 			ss << '\t';
-			int size = rowId == layers.size() ? layers[rowId - 1].numNextNodes() : layers[rowId].numNodes();
+			int size = rowId == 0 ? getNumInputs() : layers[rowId].numNodes();
 			if (nodeNum < size)
 			{
 				moreNodes = true;
@@ -78,8 +78,8 @@ string NeuralNet::toString() const
 	for (int rowId = 0; rowId < layers.size(); ++rowId)
 	{
 		auto &row = layers[rowId];
-		for (int src = 0; src < row.numNodes(); ++src)
-			for (int dest = 0; dest < row.numNextNodes(); ++dest)
+		for (int src = 0; src < row.numPrevNodes(); ++src)
+			for (int dest = 0; dest < row.numNodes(); ++dest)
 				ss << nodeStr(rowId, src) << " - " << nodeStr(rowId + 1, dest) << ": "
 				<< row.getLink(src, dest) << endl;
 	}
@@ -89,13 +89,13 @@ string NeuralNet::toString() const
 int NeuralNet::getNumInputs() const
 {
 	assert(layers.size() > 0);
-	return layers[0].numNodes();
+	return layers[0].numPrevNodes();
 }
 
 int NeuralNet::getNumOutputs() const
 {
 	assert(layers.size() > 0);
-	return layers.back().numNextNodes();
+	return layers.back().numNodes();
 }
 
 void NeuralNet::randomize()
@@ -109,20 +109,22 @@ float NeuralNet::squash(float val)
 	return 1.f / (1 + exp(-val));
 }
 
-float NeuralNet::calcNode(const Row &prevRow, const FloatVec &prevVals, int id) const
+// TODO: Move to Row class
+float NeuralNet::calcNode(const Row &row, const FloatVec &prevVals, int destId) const
 {
 	float activation = 0.f;
-	assert(prevVals.size() == prevRow.numNodes());
+	assert(prevVals.size() == row.numPrevNodes());
 	for (int srcId = 0; srcId < prevVals.size(); ++srcId)
-		activation += prevVals[srcId] * prevRow.getLink(srcId, id);
+		activation += prevVals[srcId] * row.getLink(srcId, destId);
+	activation += row.getBias(destId);
 	return activation;
 }
 
-FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals) const
+FloatVec NeuralNet::calcLayerOutputs(const Row &row, const FloatVec &prevVals) const
 {
-	FloatVec nextVals(prevRow.numNextNodes(), 0.f);
-	for (int id = 0; id < prevRow.numNextNodes(); ++id)
-		nextVals[id] = squash(calcNode(prevRow, prevVals, id));
+	FloatVec nextVals(row.numNodes(), 0.f);
+	for (int destId = 0; destId < row.numNodes(); ++destId)
+		nextVals[destId] = squash(calcNode(row, prevVals, destId));
 	return nextVals;
 }
 
@@ -130,13 +132,14 @@ FloatVec NeuralNet::calcNextVals(const Row &prevRow, const FloatVec &prevVals) c
 
 float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 {
-	assert(vals.out.size() == layers.back().numNextNodes());
+	
+	assert(vals.out.size() == layers.back().numNodes());
 	FloatVec2D nodeProb = calcProbFull(vals.in);
 	FloatVec2D actDeriv = nodeProb; // Assign to get correct size. Must reassign later
 
 	float error = 0.f; // Only for return value
 
-	assert(nodeProb.size() == layers.size() + 1); // No back layer but back nodes
+	assert(nodeProb.size() == 1 + layers.size());
 
 	// Calculate activation derivatives for last row
 	{
@@ -154,29 +157,30 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	}
 
 	// Calculate for all other rows
-	for (int rowId = layers.size() - 1; rowId >= 0; --rowId)
+	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
 	{
 		Row &row = layers[rowId];
-		for (int nodeNum = 0; nodeNum < row.numNodes(); ++nodeNum)
+		for (int srcNode = 0; srcNode < row.numPrevNodes(); ++srcNode)
 		{
 			float chainSums = 0.f;
-			for (int destNode = 0; destNode < row.numNextNodes(); ++destNode)
-				chainSums += row.getLink(nodeNum, destNode) * actDeriv[rowId + 1][destNode];
-			float out = nodeProb[rowId][nodeNum];
-			actDeriv[rowId][nodeNum] = out * (1 - out) * chainSums;
+			for (int destNode = 0; destNode < row.numNodes(); ++destNode)
+				chainSums += row.getLink(srcNode, destNode) * actDeriv[rowId + 1][destNode];
+			float out = nodeProb[rowId][srcNode];
+			actDeriv[rowId][srcNode] = out * (1 - out) * chainSums;
 		}
 	}
 
 	// Use deriv calculations to adjust link weights
-	for (int rowId = layers.size() - 1; rowId >= 0; --rowId)
+	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
 	{
 		Row &row = layers[rowId];
-		for (int src = 0; src < row.numNodes(); ++src)
+		row.updateBiases(actDeriv[rowId+1], learningRate * 0.75f);
+		for (int src = 0; src < row.numPrevNodes(); ++src)
 		{
-			for (int dest = 0; dest < row.numNextNodes(); ++dest)
+			for (int dest = 0; dest < row.numNodes(); ++dest)
 			{
 				float &link = row.getLinkRef(src, dest);
-				float deriv = nodeProb[rowId][src] * actDeriv[rowId + 1][dest];
+				float deriv = nodeProb[rowId][src] * actDeriv[rowId+1][dest];
 				link -= learningRate * deriv;
 			}
 		}
@@ -210,14 +214,14 @@ FloatVec2D NeuralNet::calcProbFull(const FloatVec &inputVals) const
 	FloatVec2D vec2D;
 	vec2D.push_back(inputVals);
 	for (auto &i : layers)
-		vec2D.push_back(calcNextVals(i, vec2D.back()));
+		vec2D.push_back(calcLayerOutputs(i, vec2D.back()));
 	return vec2D;
 }
 
 FloatVec NeuralNet::calcProb(const FloatVec &inputVals) const
 {
 	FloatVec vals = inputVals;
-	for (int i = 0; i < layers.size(); ++i)
-		vals = calcNextVals(layers[i], vals);
+	for (auto &i : layers)
+		vals = calcLayerOutputs(i, vals);
 	return vals;
 }

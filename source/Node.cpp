@@ -37,6 +37,16 @@ void Node::randomize()
 		i = randFloat(-1.f, 1.f);
 }
 
+float Node::getBias() const
+{
+	return bias;
+}
+
+void Node::updateBias(float deriv, float learningRate)
+{
+	bias -= deriv * learningRate;
+}
+
 float &Node::getLinkRef(int id)
 {
 	assert(id < weights.size());

@@ -41,7 +41,7 @@ private:
 	float backPropagateStep(const FloatVecIO &vals, float learningRate);
 	static float squash(float val);
 	float calcNode(const Row &prevRow, const FloatVec &prevVals, int id) const;
-	FloatVec calcNextVals(const Row &prevRow, const FloatVec &prevVals) const;
+	FloatVec calcLayerOutputs(const Row &prevRow, const FloatVec &prevVals) const;
 
 	std::vector<Row> layers;
 };

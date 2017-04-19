@@ -25,10 +25,12 @@
 class Row
 {
 public:
-	Row(int size, int nextSize);
+	Row(int prevSize, int size);
 	size_t numNodes() const;
-	size_t numNextNodes() const;
+	size_t numPrevNodes() const;
 	void randomize();
+	float getBias(size_t id) const;
+	void updateBiases(const FloatVec &outputs, float learningRate);
 	float &getLinkRef(int src, int dest);
 	float getLink(int src, int dest) const;
 
