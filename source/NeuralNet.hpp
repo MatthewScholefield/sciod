@@ -26,7 +26,9 @@
 class NeuralNet
 {
 public:
-	NeuralNet(int numInputs, int numHidden, int numLayers, int numOutputs);
+	NeuralNet() = default;
+	NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs);
+	void create(int numInputs, int numHidden, int numHidLayers, int numOutputs);
 	std::string toString() const;
 	int getNumInputs() const;
 	int getNumOutputs() const;

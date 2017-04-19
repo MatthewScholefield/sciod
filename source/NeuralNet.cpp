@@ -27,6 +27,12 @@ using namespace std;
 
 NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs)
 {
+	create(numInputs, numHidden, numHidLayers, numOutputs);
+}
+
+void NeuralNet::create(int numInputs, int numHidden, int numHidLayers, int numOutputs)
+{
+	layers.clear();
 	layers.emplace_back(numInputs, numHidden);
 	for (int i = 0; i < numHidLayers - 1; ++i)
 		layers.emplace_back(numHidden, numHidden);
@@ -38,7 +44,7 @@ string NeuralNet::toString() const
 	const char startChar = 'a';
 	const char endChar = 'z';
 	const int numChars = endChar - startChar;
-	
+
 	/*
 	 * Returns a string unique to that position
 	 */
@@ -49,7 +55,7 @@ string NeuralNet::toString() const
 			return string() + char(startChar + diff / numChars - 1) + char(startChar + diff % numChars);
 		return string() + char(startChar + diff);
 	};
-	
+
 	stringstream ss;
 	bool moreNodes = true;
 	for (int nodeNum = 0; moreNodes; ++nodeNum)
