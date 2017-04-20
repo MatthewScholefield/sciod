@@ -15,63 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <sstream>
-#include <string>
 #include <vector>
 #include "catch.hpp"
 #include "source/NeuralNet.hpp"
+#include "source/FloatVec.hpp"
 
 using namespace std;
 
-void interact(const NeuralNet &net)
-{
-	cout << "Enter " << net.getNumInputs() << " inputs." << endl;
-	cout << "(q to Quit)" << endl;
-	while (1)
-	{
-		FloatVec inputs;
-		while (inputs.size() < net.getNumInputs())
-		{
-			cout << ": ";
-			string query;
-			getline(cin, query);
-			try
-			{
-				float val = stof(query);
-				if (val >= 0.f && val <= 1.f)
-					inputs.push_back(val);
-				else
-					cout << "Value must be between 0.0 and 1.0." << endl;
-
-			}
-			catch (...)
-			{
-				if (query.compare("q") == 0)
-					return;
-
-				cout << "Error parsing " << query << endl;
-			}
-		}
-		auto outputs = net.calcProb(inputs);
-		if (outputs.size() == 1)
-			cout << outputs[0] << endl;
-		else
-		{
-			cout << "{" << outputs[0];
-			for (auto it = outputs.begin() + 1; it != outputs.end(); ++it)
-				cout << ", " << *it;
-			cout << "}" << endl;
-		}
-	}
-}
-
 TEST_CASE("Simple 1", "[simple-1]")
 {
-	srand(time(nullptr));
-	NeuralNet net(2, 5, 1, 1);
-	net.randomize();
-	net.backPropagate({
+	const vector<FloatVecIO> testData = {
 		{
 			{0, 0},
 			{0}
@@ -88,7 +41,23 @@ TEST_CASE("Simple 1", "[simple-1]")
 			{1, 1},
 			{0}
 		}
-	}, 0.0001, 4);
+	};
+	const float maxError = 0.0001f;
+	const float learningRate = 4.f;
+	const int hiddenSize = 5, hiddenLayers = 1;
 
-	interact(net);
+	NeuralNet net(testData[0].in.size(), hiddenSize, hiddenLayers,
+				testData[0].out.size());
+	srand(time(nullptr));
+	net.randomize();
+	net.backPropagate(testData, maxError, learningRate);
+
+	float error = 0.f;
+	for (auto &vecIO : testData)
+	{
+		auto calcOut = net.calcProb(vecIO.in);
+		for (int i = 0; i < vecIO.out.size(); ++i)
+			error += (0.5f * pow(calcOut[i] - vecIO.out[i], 2.f));
+	}
+	REQUIRE(error < maxError);
 }
