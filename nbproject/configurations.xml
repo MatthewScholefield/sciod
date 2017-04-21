@@ -1,156 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="HeaderFiles"
-                   displayName="Header Files"
-                   projectFiles="true">
-      <itemPath>source/FloatVec.hpp</itemPath>
-      <itemPath>source/NeuralNet.hpp</itemPath>
-      <itemPath>source/Node.hpp</itemPath>
-      <itemPath>source/Row.hpp</itemPath>
+    <df root="/home/matthew/Documents/GitHub/sciod/include" name="1">
+    </df>
+    <logicalFolder name="meson-private"
+                   displayName="meson-private"
+                   projectFiles="true"
+                   root="build/meson-private">
+      <itemPath>build/meson-private/sanitycheckcpp.cc</itemPath>
     </logicalFolder>
-    <logicalFolder name="ResourceFiles"
-                   displayName="Resource Files"
-                   projectFiles="true">
-    </logicalFolder>
-    <logicalFolder name="SourceFiles"
-                   displayName="Source Files"
-                   projectFiles="true">
-      <itemPath>source/FloatVec.cpp</itemPath>
-      <itemPath>source/NeuralNet.cpp</itemPath>
-      <itemPath>source/Node.cpp</itemPath>
-      <itemPath>source/Row.cpp</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Test Files"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-      <logicalFolder name="f1" displayName="tests" projectFiles="true" kind="TEST">
-        <itemPath>tests/catch.cpp</itemPath>
-        <itemPath>tests/catch.hpp</itemPath>
-        <itemPath>tests/simpleTests.cpp</itemPath>
-      </logicalFolder>
-    </logicalFolder>
+    <df root="/home/matthew/Documents/GitHub/sciod/src" name="0">
+      <in>FloatVec.cpp</in>
+      <in>NeuralNet.cpp</in>
+      <in>Node.cpp</in>
+      <in>Row.cpp</in>
+    </df>
+    <df root="/home/matthew/Documents/GitHub/sciod/test" name="2">
+      <in>catch.cpp</in>
+      <in>simpleTests.cpp</in>
+    </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
+      <itemPath>.gitignore</itemPath>
+      <itemPath>/home/matthew/Documents/GitHub/sciod/nbproject/private/launcher.properties</itemPath>
+      <itemPath>meson.build</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
-    <Elem>source</Elem>
-    <Elem>tests</Elem>
+    <Elem>/home/matthew/Documents/GitHub/sciod/src</Elem>
+    <Elem>/home/matthew/Documents/GitHub/sciod/include</Elem>
+    <Elem>/home/matthew/Documents/GitHub/sciod/test</Elem>
   </sourceRootList>
-  <projectmakefile>Makefile</projectmakefile>
+  <projectmakefile>/home/matthew/Documents/GitHub/sciod/Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="2">
+    <conf name="Default" type="0">
       <toolsSet>
-        <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
-      <compileType>
-        <ccTool>
-          <standard>11</standard>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=c++14"/>
+        <element flagsID="1" commonFlags="-std=c++14 -O3 -fstack-protector"/>
+        <element flagsID="2" commonFlags="-std=c++14 -O3 -fstack-protector -fPIC"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>/home/matthew/Documents/GitHub/sciod/build</buildCommandWorkingDir>
+          <buildCommand>ninja</buildCommand>
+          <cleanCommand>ninja clean</cleanCommand>
+          <executablePath>build/test/testexe</executablePath>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand></preBuildCommand>
+        </preBuild>
+      </makefileType>
+      <item path="/home/matthew/Documents/GitHub/sciod/src/FloatVec.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="2">
         </ccTool>
-      </compileType>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      </item>
+      <item path="/home/matthew/Documents/GitHub/sciod/src/NeuralNet.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="/home/matthew/Documents/GitHub/sciod/src/Node.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="/home/matthew/Documents/GitHub/sciod/src/Row.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="/home/matthew/Documents/GitHub/sciod/test/catch.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="/home/matthew/Documents/GitHub/sciod/test/simpleTests.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="build/meson-private/sanitycheckcpp.cc"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <folder path="0">
         <ccTool>
           <incDir>
-            <pElem>.</pElem>
+            <pElem>build/src/sciod@sha</pElem>
+            <pElem>build/src</pElem>
+            <pElem>src</pElem>
+            <pElem>build/include</pElem>
+            <pElem>include</pElem>
+            <pElem>build</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>_FILE_OFFSET_BITS=64</Elem>
+          </preprocessorList>
         </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
       </folder>
-      <item path="source/FloatVec.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/FloatVec.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/NeuralNet.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/NeuralNet.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/Node.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/Node.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/Row.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/Row.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="tests/catch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/catch.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="tests/simpleTests.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-    </conf>
-    <conf name="Release" type="2">
-      <toolsSet>
-        <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
-      </toolsSet>
-      <compileType>
-        <cTool>
-          <developmentMode>5</developmentMode>
-        </cTool>
-        <ccTool>
-          <developmentMode>5</developmentMode>
-          <standard>11</standard>
-        </ccTool>
-        <fortranCompilerTool>
-          <developmentMode>5</developmentMode>
-        </fortranCompilerTool>
-        <asmTool>
-          <developmentMode>5</developmentMode>
-        </asmTool>
-      </compileType>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      <folder path="2">
         <ccTool>
           <incDir>
-            <pElem>.</pElem>
+            <pElem>build/test/testexe@exe</pElem>
+            <pElem>build/test</pElem>
+            <pElem>test</pElem>
+            <pElem>build/include</pElem>
+            <pElem>include</pElem>
+            <pElem>build</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>_FILE_OFFSET_BITS=64</Elem>
+          </preprocessorList>
         </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
       </folder>
-      <item path="source/FloatVec.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/FloatVec.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/NeuralNet.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/NeuralNet.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/Node.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/Node.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="source/Row.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="source/Row.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="tests/catch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/catch.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="tests/simpleTests.cpp" ex="false" tool="1" flavor2="0">
-      </item>
+      <folder path="meson-private">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
     </conf>
   </confs>
 </configurationDescriptor>

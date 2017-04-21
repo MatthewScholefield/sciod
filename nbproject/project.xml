@@ -5,22 +5,19 @@
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>sciod</name>
             <c-extensions/>
-            <cpp-extensions>cpp</cpp-extensions>
+            <cpp-extensions>cc,cpp</cpp-extensions>
             <header-extensions>hpp</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>source</sourceRootElem>
-                <sourceRootElem>tests</sourceRootElem>
+                <sourceRootElem>/home/matthew/Documents/GitHub/sciod/src</sourceRootElem>
+                <sourceRootElem>/home/matthew/Documents/GitHub/sciod/include</sourceRootElem>
+                <sourceRootElem>/home/matthew/Documents/GitHub/sciod/test</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>Debug</name>
-                    <type>2</type>
-                </confElem>
-                <confElem>
-                    <name>Release</name>
-                    <type>2</type>
+                    <name>Default</name>
+                    <type>0</type>
                 </confElem>
             </confList>
             <formatting>

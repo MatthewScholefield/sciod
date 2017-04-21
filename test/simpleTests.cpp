@@ -17,8 +17,8 @@
 
 #include <vector>
 #include "catch.hpp"
-#include "source/NeuralNet.hpp"
-#include "source/FloatVec.hpp"
+#include "NeuralNet.hpp"
+#include "FloatVec.hpp"
 
 using namespace std;
 
