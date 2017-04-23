@@ -13,7 +13,7 @@ subdir('src')
 subdir('test')
 
 pkg_mod = import('pkgconfig')
-pkg_mod.generate(libraries : sciodlib,
+pkg_mod.generate(libraries : lib,
 				 version : '0.1',
 				 name : 'libsciod',
 				 filebase : 'sciod',

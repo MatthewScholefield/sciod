@@ -4,7 +4,8 @@ test_sources = [
 ]
 
 testexe = executable('testexe', test_sources,
-                     include_directories : inc,
-                     link_with : sciodlib)
-test('sciodlib test', testexe)
+					include_directories : inc,
+					link_with : lib)
+
+test('sciod test', testexe)
 
