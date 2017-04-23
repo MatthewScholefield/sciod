@@ -49,17 +49,17 @@ float Layer::getBias(size_t id) const
 void Layer::updateBiases(const FloatVec &outputs, float learningRate)
 {
 	assert(outputs.size() == nodes.size());
-	for (int i = 0; i < outputs.size(); ++i)
+	for (size_t i = 0; i < outputs.size(); ++i)
 		nodes[i].updateBias(outputs[i], learningRate);
 }
 
-float &Layer::getLinkRef(int src, int dest)
+float &Layer::getLinkRef(size_t src, size_t dest)
 {
 	assert(dest < nodes.size());
 	return nodes[dest].getLinkRef(src);
 }
 
-float Layer::getLink(int src, int dest) const
+float Layer::getLink(size_t src, size_t dest) const
 {
 	assert(dest < nodes.size());
 	return nodes[dest].getLink(src);

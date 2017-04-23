@@ -51,9 +51,9 @@ string NeuralNet::toString() const
 	/*
 	 * Returns a string unique to that position
 	 */
-	auto nodeStr = [&](int rowId, int nodeNum) -> string
+	auto nodeStr = [&](int layerId, int nodeNum) -> string
 	{
-		int diff = min(rowId, 1) * getNumInputs() + max(0, rowId - 1) * layers[1].numNodes() + nodeNum;
+		int diff = min(layerId, 1) * getNumInputs() + max(0, layerId - 1) * layers[1].numNodes() + nodeNum;
 		if (diff > numChars)
 			return string() + char(startChar + diff / numChars - 1) + char(startChar + diff % numChars);
 		return string() + char(startChar + diff);
@@ -64,26 +64,26 @@ string NeuralNet::toString() const
 	for (int nodeNum = 0; moreNodes; ++nodeNum)
 	{
 		moreNodes = false;
-		for (int rowId = 0; rowId < layers.size(); ++rowId)
+		for (size_t layerId = 0; layerId < layers.size(); ++layerId)
 		{
 			ss << '\t';
-			int size = rowId == 0 ? getNumInputs() : layers[rowId].numNodes();
+			int size = layerId == 0 ? getNumInputs() : layers[layerId].numNodes();
 			if (nodeNum < size)
 			{
 				moreNodes = true;
-				ss << nodeStr(rowId, nodeNum);
+				ss << nodeStr(layerId, nodeNum);
 			}
 		}
 		ss << endl;
 	}
 	ss << endl;
 
-	for (int rowId = 0; rowId < layers.size(); ++rowId)
+	for (size_t layerId = 0; layerId < layers.size(); ++layerId)
 	{
-		auto &row = layers[rowId];
-		for (int src = 0; src < row.numPrevNodes(); ++src)
-			for (int dest = 0; dest < row.numNodes(); ++dest)
-				ss << nodeStr(rowId, src) << " - " << nodeStr(rowId + 1, dest) << ": "
+		auto &row = layers[layerId];
+		for (size_t src = 0; src < row.numPrevNodes(); ++src)
+			for (size_t dest = 0; dest < row.numNodes(); ++dest)
+				ss << nodeStr(layerId, src) << " - " << nodeStr(layerId + 1, dest) << ": "
 				<< row.getLink(src, dest) << endl;
 	}
 	return ss.str();
@@ -114,21 +114,21 @@ float NeuralNet::squash(float val)
 
 // TODO: Move to Row class
 
-float NeuralNet::calcNode(const Layer &row, const FloatVec &prevVals, int destId) const
+float NeuralNet::calcNode(const Layer &row, const FloatVec &prevVals, int dest) const
 {
 	float activation = 0.f;
 	assert(prevVals.size() == row.numPrevNodes());
-	for (int srcId = 0; srcId < prevVals.size(); ++srcId)
-		activation += prevVals[srcId] * row.getLink(srcId, destId);
-	activation += row.getBias(destId);
+	for (size_t src = 0; src < prevVals.size(); ++src)
+		activation += prevVals[src] * row.getLink(src, dest);
+	activation += row.getBias(dest);
 	return activation;
 }
 
 FloatVec NeuralNet::calcLayerOutputs(const Layer &row, const FloatVec &prevVals) const
 {
 	FloatVec nextVals(row.numNodes(), 0.f);
-	for (int destId = 0; destId < row.numNodes(); ++destId)
-		nextVals[destId] = squash(calcNode(row, prevVals, destId));
+	for (size_t dest = 0; dest < row.numNodes(); ++dest)
+		nextVals[dest] = squash(calcNode(row, prevVals, dest));
 	return nextVals;
 }
 
@@ -147,13 +147,13 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 
 	// Calculate activation derivatives for last row
 	{
-		int rowId = nodeProb.size() - 1;
-		for (int nodeNum = 0; nodeNum < nodeProb[rowId].size(); ++nodeNum)
+		int layerId = nodeProb.size() - 1;
+		for (size_t src = 0; src < nodeProb[layerId].size(); ++src)
 		{
-			float out = nodeProb[rowId][nodeNum];
-			float correct = vals.out[nodeNum];
+			float out = nodeProb[layerId][src];
+			float correct = vals.out[src];
 			float act = (out - correct) * out * (1 - out);
-			actDeriv[rowId][nodeNum] = act;
+			actDeriv[layerId][src] = act;
 
 			float diff = (out - correct);
 			error += diff * diff / 2.f;
@@ -161,30 +161,30 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	}
 
 	// Calculate for all other rows
-	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
+	for (int layerId = nodeProb.size() - 2; layerId >= 0; --layerId)
 	{
-		Layer &row = layers[rowId];
-		for (int srcNode = 0; srcNode < row.numPrevNodes(); ++srcNode)
+		Layer &row = layers[layerId];
+		for (size_t src = 0; src < row.numPrevNodes(); ++src)
 		{
 			float chainSums = 0.f;
-			for (int destNode = 0; destNode < row.numNodes(); ++destNode)
-				chainSums += row.getLink(srcNode, destNode) * actDeriv[rowId + 1][destNode];
-			float out = nodeProb[rowId][srcNode];
-			actDeriv[rowId][srcNode] = out * (1 - out) * chainSums;
+			for (size_t dest = 0; dest < row.numNodes(); ++dest)
+				chainSums += row.getLink(src, dest) * actDeriv[layerId + 1][dest];
+			float out = nodeProb[layerId][src];
+			actDeriv[layerId][src] = out * (1 - out) * chainSums;
 		}
 	}
 
 	// Use deriv calculations to adjust link weights
-	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
+	for (int layerId = nodeProb.size() - 2; layerId >= 0; --layerId)
 	{
-		Layer &row = layers[rowId];
-		row.updateBiases(actDeriv[rowId + 1], learningRate * 0.75f);
-		for (int src = 0; src < row.numPrevNodes(); ++src)
+		Layer &row = layers[layerId];
+		row.updateBiases(actDeriv[layerId + 1], learningRate * 0.75f);
+		for (size_t src = 0; src < row.numPrevNodes(); ++src)
 		{
-			for (int dest = 0; dest < row.numNodes(); ++dest)
+			for (size_t dest = 0; dest < row.numNodes(); ++dest)
 			{
 				float &link = row.getLinkRef(src, dest);
-				float deriv = nodeProb[rowId][src] * actDeriv[rowId + 1][dest];
+				float deriv = nodeProb[layerId][src] * actDeriv[layerId + 1][dest];
 				link -= learningRate * deriv;
 			}
 		}

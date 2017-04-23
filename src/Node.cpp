@@ -50,13 +50,13 @@ void Node::updateBias(float deriv, float learningRate)
 	bias -= deriv * learningRate;
 }
 
-float &Node::getLinkRef(int id)
+float &Node::getLinkRef(size_t id)
 {
 	assert(id < weights.size());
 	return weights[id];
 }
 
-float Node::getLink(int id) const
+float Node::getLink(size_t id) const
 {
 	assert(id < weights.size());
 	return weights[id];

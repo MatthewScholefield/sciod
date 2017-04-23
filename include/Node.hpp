@@ -37,8 +37,8 @@ namespace sciod
 		void randomize();
 		float getBias() const;
 		void updateBias(float output, float learningRate);
-		float &getLinkRef(int id);
-		float getLink(int id) const;
+		float &getLinkRef(size_t id);
+		float getLink(size_t id) const;
 
 	private:
 		float bias;

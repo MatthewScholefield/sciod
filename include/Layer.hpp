@@ -34,8 +34,8 @@ namespace sciod
 		void randomize();
 		float getBias(size_t id) const;
 		void updateBiases(const FloatVec &outputs, float learningRate);
-		float &getLinkRef(int src, int dest);
-		float getLink(int src, int dest) const;
+		float &getLinkRef(size_t src, size_t dest);
+		float getLink(size_t src, size_t dest) const;
 
 	private:
 		std::vector<Node> nodes;

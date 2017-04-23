@@ -57,7 +57,7 @@ TEST_CASE("Simple 1", "[simple-1]")
 	for (auto &vecIO : testData)
 	{
 		auto calcOut = net.calcProb(vecIO.in);
-		for (int i = 0; i < vecIO.out.size(); ++i)
+		for (size_t i = 0; i < vecIO.out.size(); ++i)
 			error += (0.5f * pow(calcOut[i] - vecIO.out[i], 2.f));
 	}
 	REQUIRE(error < maxError);
