@@ -19,7 +19,7 @@
 
 #include <vector>
 #include <string>
-#include "Row.hpp"
+#include "Layer.hpp"
 
 #include "FloatVec.hpp"
 
@@ -40,8 +40,8 @@ public:
 private:
 	float backPropagateStep(const FloatVecIO &vals, float learningRate);
 	static float squash(float val);
-	float calcNode(const Row &prevRow, const FloatVec &prevVals, int id) const;
-	FloatVec calcLayerOutputs(const Row &prevRow, const FloatVec &prevVals) const;
+	float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
+	FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
 
-	std::vector<Row> layers;
+	std::vector<Layer> layers;
 };

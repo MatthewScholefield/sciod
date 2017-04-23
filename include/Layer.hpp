@@ -22,10 +22,10 @@
 
 #include "Node.hpp"
 
-class Row
+class Layer
 {
 public:
-	Row(int prevSize, int size);
+	Layer(int prevSize, int size);
 	size_t numNodes() const;
 	size_t numPrevNodes() const;
 	void randomize();

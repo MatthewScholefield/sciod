@@ -2,7 +2,7 @@ headers = [
 	'FloatVec.hpp',
 	'NeuralNet.hpp',
 	'Node.hpp',
-	'Row.hpp'
+	'Layer.hpp'
 ]
 
 install_headers(headers, subdir : 'sciod')

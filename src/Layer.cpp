@@ -16,47 +16,47 @@
  */
 
 #include <cassert>
-#include "Row.hpp"
+#include "Layer.hpp"
 
-Row::Row(int prevSize, int size) : nodes(size, Node(prevSize)) { }
+Layer::Layer(int prevSize, int size) : nodes(size, Node(prevSize)) { }
 
-size_t Row::numNodes() const
+size_t Layer::numNodes() const
 {
 	return nodes.size();
 }
 
-size_t Row::numPrevNodes() const
+size_t Layer::numPrevNodes() const
 {
 	assert(nodes.size() > 0);
 	return nodes[0].numLinks();
 }
 
-void Row::randomize()
+void Layer::randomize()
 {
 	for (auto &i : nodes)
 		i.randomize();
 }
 
-float Row::getBias(size_t id) const
+float Layer::getBias(size_t id) const
 {
 	assert(id < nodes.size());
 	return nodes[id].getBias();
 }
 
-void Row::updateBiases(const FloatVec &outputs, float learningRate)
+void Layer::updateBiases(const FloatVec &outputs, float learningRate)
 {
 	assert(outputs.size() == nodes.size());
 	for (int i = 0; i < outputs.size(); ++i)
 		nodes[i].updateBias(outputs[i], learningRate);
 }
 
-float &Row::getLinkRef(int src, int dest)
+float &Layer::getLinkRef(int src, int dest)
 {
 	assert(dest < nodes.size());
 	return nodes[dest].getLinkRef(src);
 }
 
-float Row::getLink(int src, int dest) const
+float Layer::getLink(int src, int dest) const
 {
 	assert(dest < nodes.size());
 	return nodes[dest].getLink(src);

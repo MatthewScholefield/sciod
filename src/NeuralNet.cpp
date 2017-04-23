@@ -110,7 +110,7 @@ float NeuralNet::squash(float val)
 }
 
 // TODO: Move to Row class
-float NeuralNet::calcNode(const Row &row, const FloatVec &prevVals, int destId) const
+float NeuralNet::calcNode(const Layer &row, const FloatVec &prevVals, int destId) const
 {
 	float activation = 0.f;
 	assert(prevVals.size() == row.numPrevNodes());
@@ -120,7 +120,7 @@ float NeuralNet::calcNode(const Row &row, const FloatVec &prevVals, int destId) 
 	return activation;
 }
 
-FloatVec NeuralNet::calcLayerOutputs(const Row &row, const FloatVec &prevVals) const
+FloatVec NeuralNet::calcLayerOutputs(const Layer &row, const FloatVec &prevVals) const
 {
 	FloatVec nextVals(row.numNodes(), 0.f);
 	for (int destId = 0; destId < row.numNodes(); ++destId)
@@ -159,7 +159,7 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	// Calculate for all other rows
 	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
 	{
-		Row &row = layers[rowId];
+		Layer &row = layers[rowId];
 		for (int srcNode = 0; srcNode < row.numPrevNodes(); ++srcNode)
 		{
 			float chainSums = 0.f;
@@ -173,7 +173,7 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	// Use deriv calculations to adjust link weights
 	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
 	{
-		Row &row = layers[rowId];
+		Layer &row = layers[rowId];
 		row.updateBiases(actDeriv[rowId+1], learningRate * 0.75f);
 		for (int src = 0; src < row.numPrevNodes(); ++src)
 		{

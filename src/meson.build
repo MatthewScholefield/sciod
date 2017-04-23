@@ -3,7 +3,7 @@ sources = [
 	'FloatVec.cpp',
 	'NeuralNet.cpp',
 	'Node.cpp',
-	'Row.cpp'
+	'Layer.cpp'
 ]
 
 lib = shared_library('sciod',
