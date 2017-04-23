@@ -23,25 +23,29 @@
 
 #include "FloatVec.hpp"
 
-class NeuralNet
+namespace sciod
 {
-public:
-	NeuralNet() = default;
-	NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs);
-	void create(int numInputs, int numHidden, int numHidLayers, int numOutputs);
-	std::string toString() const;
-	int getNumInputs() const;
-	int getNumOutputs() const;
-	void randomize();
-	long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f);
-	FloatVec2D calcProbFull(const FloatVec &inputVals) const;
-	FloatVec calcProb(const FloatVec &inputVals) const;
 
-private:
-	float backPropagateStep(const FloatVecIO &vals, float learningRate);
-	static float squash(float val);
-	float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
-	FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
+	class NeuralNet
+	{
+	public:
+		NeuralNet() = default;
+		NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs);
+		void create(int numInputs, int numHidden, int numHidLayers, int numOutputs);
+		std::string toString() const;
+		int getNumInputs() const;
+		int getNumOutputs() const;
+		void randomize();
+		long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f);
+		FloatVec2D calcProbFull(const FloatVec &inputVals) const;
+		FloatVec calcProb(const FloatVec &inputVals) const;
 
-	std::vector<Layer> layers;
-};
+	private:
+		float backPropagateStep(const FloatVecIO &vals, float learningRate);
+		static float squash(float val);
+		float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
+		FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
+
+		std::vector<Layer> layers;
+	};
+}

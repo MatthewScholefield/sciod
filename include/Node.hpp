@@ -22,22 +22,26 @@
 
 #include "FloatVec.hpp"
 
-/*
- * Represents a single point
- * Contains connection weights to the previous nodes
- */
-class Node
+namespace sciod
 {
-public:
-	Node(int numConnections);
-	size_t numLinks() const;
-	void randomize();
-	float getBias() const;
-	void updateBias(float output, float learningRate);
-	float &getLinkRef(int id);
-	float getLink(int id) const;
 
-private:
-	float bias;
-	FloatVec weights;
-};
+	/*
+	 * Represents a single point
+	 * Contains connection weights to the previous nodes
+	 */
+	class Node
+	{
+	public:
+		Node(int numConnections);
+		size_t numLinks() const;
+		void randomize();
+		float getBias() const;
+		void updateBias(float output, float learningRate);
+		float &getLinkRef(int id);
+		float getLink(int id) const;
+
+	private:
+		float bias;
+		FloatVec weights;
+	};
+}

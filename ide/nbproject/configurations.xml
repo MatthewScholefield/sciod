@@ -3,23 +3,26 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="include"
                    displayName="Header Files"
-                   projectFiles="true">
+                   projectFiles="true"
+                   root="../include">
       <itemPath>../include/FloatVec.hpp</itemPath>
+      <itemPath>../include/Layer.hpp</itemPath>
       <itemPath>../include/NeuralNet.hpp</itemPath>
       <itemPath>../include/Node.hpp</itemPath>
-      <itemPath>../include/Row.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="f1"
                    displayName="Source Files"
-                   projectFiles="true">
+                   projectFiles="true"
+                   root="../src">
       <itemPath>../src/FloatVec.cpp</itemPath>
+      <itemPath>../src/Layer.cpp</itemPath>
       <itemPath>../src/NeuralNet.cpp</itemPath>
       <itemPath>../src/Node.cpp</itemPath>
-      <itemPath>../src/Row.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="test"
                    displayName="Test Files"
-                   projectFiles="true">
+                   projectFiles="true"
+                   root="../test">
       <itemPath>../test/catch.cpp</itemPath>
       <itemPath>../test/catch.hpp</itemPath>
       <itemPath>../test/simpleTests.cpp</itemPath>
@@ -27,7 +30,7 @@
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
-		   kind="IMPORTANT_FILES_FOLDER">
+                   kind="IMPORTANT_FILES_FOLDER">
       <itemPath>../README.md</itemPath>
       <itemPath>../meson.build</itemPath>
       <itemPath>../src/meson.build</itemPath>
@@ -41,6 +44,7 @@
     <Elem>../include</Elem>
     <Elem>../test</Elem>
   </sourceRootList>
+  <projectmakefile>/home/matthew/Documents/GitHub/sciod/Makefile</projectmakefile>
   <confs>
     <conf name="Default" type="0">
       <toolsSet>
@@ -49,10 +53,8 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0"
-                 commonFlags="-mtune=generic -march=x86-64 -O3 -std=c++14 -fstack-protector"/>
-        <element flagsID="1"
-                 commonFlags="-mtune=generic -march=x86-64 -O3 -std=c++14 -fstack-protector -fPIC"/>
+        <element flagsID="0" commonFlags="-std=c++14 -O3 -fstack-protector"/>
+        <element flagsID="1" commonFlags="-std=c++14 -O3 -fstack-protector -fPIC"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -63,9 +65,9 @@
           <cleanCommand>ninja clean</cleanCommand>
           <executablePath>../build/test/testexe</executablePath>
           <ccTool>
-            <incDir>
-              <pElem>../include</pElem>
-            </incDir>
+            <preprocessorList>
+              <Elem>_FILE_OFFSET_BITS=64</Elem>
+            </preprocessorList>
           </ccTool>
         </makeTool>
         <preBuild>
@@ -77,6 +79,10 @@
         <ccTool flags="1">
         </ccTool>
       </item>
+      <item path="../src/Layer.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
       <item path="../src/NeuralNet.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
         </ccTool>
@@ -85,31 +91,33 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="../src/Row.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
       <item path="../test/catch.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
-          <incDir>
-            <pElem>../test</pElem>
-            <pElem>../build</pElem>
-          </incDir>
         </ccTool>
       </item>
       <item path="../test/simpleTests.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
-          <incDir>
-            <pElem>../include</pElem>
-            <pElem>../test</pElem>
-            <pElem>../build</pElem>
-          </incDir>
         </ccTool>
       </item>
       <folder path="f1">
         <ccTool>
           <incDir>
+            <pElem>../build/src/sciod@sha</pElem>
+            <pElem>../build/src</pElem>
             <pElem>../src</pElem>
+            <pElem>../build/include</pElem>
+            <pElem>../include</pElem>
+            <pElem>../build</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="test">
+        <ccTool>
+          <incDir>
+            <pElem>../build/test/testexe@exe</pElem>
+            <pElem>../build/test</pElem>
+            <pElem>../test</pElem>
+            <pElem>../build/include</pElem>
             <pElem>../include</pElem>
             <pElem>../build</pElem>
           </incDir>

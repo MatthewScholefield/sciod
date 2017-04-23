@@ -19,13 +19,16 @@
 
 #include <vector>
 
-using FloatVec = std::vector<float>;
-using FloatVec2D = std::vector<FloatVec>;
-
-FloatVec FloatVecSingle(float a);
-
-struct FloatVecIO
+namespace sciod
 {
-	FloatVecIO(const FloatVec &in, const FloatVec &out);
-	FloatVec in, out;
-};
+	using FloatVec = std::vector<float>;
+	using FloatVec2D = std::vector<FloatVec>;
+
+	FloatVec FloatVecSingle(float a);
+
+	struct FloatVecIO
+	{
+		FloatVecIO(const FloatVec &in, const FloatVec &out);
+		FloatVec in, out;
+	};
+}

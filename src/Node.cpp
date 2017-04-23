@@ -19,6 +19,9 @@
 #include <cstdlib>
 #include "Node.hpp"
 
+namespace sciod
+{
+
 Node::Node(int numLinks) : weights(numLinks, 0.f) { }
 
 static float randFloat(float min, float max)
@@ -59,3 +62,4 @@ float Node::getLink(int id) const
 	return weights[id];
 }
 
+}

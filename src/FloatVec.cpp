@@ -17,10 +17,13 @@
 
 #include "FloatVec.hpp"
 
-FloatVec FloatVecSingle(float a)
+namespace sciod
 {
-	return FloatVec(1, a);
-}
+	FloatVec FloatVecSingle(float a)
+	{
+		return FloatVec(1, a);
+	}
 
-FloatVecIO::FloatVecIO(const FloatVec& in, const FloatVec& out) :
-in(in), out(out) { }
+	FloatVecIO::FloatVecIO(const FloatVec& in, const FloatVec& out) :
+	in(in), out(out) { }
+}

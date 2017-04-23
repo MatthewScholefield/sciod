@@ -23,6 +23,7 @@ Full example (learn XOR operator):
 #include <sciod/NeuralNet.hpp>
 
 using namespace std;
+using namespace sciod;
 
 int main()
 {

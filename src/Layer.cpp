@@ -18,6 +18,9 @@
 #include <cassert>
 #include "Layer.hpp"
 
+namespace sciod
+{
+
 Layer::Layer(int prevSize, int size) : nodes(size, Node(prevSize)) { }
 
 size_t Layer::numNodes() const
@@ -62,3 +65,4 @@ float Layer::getLink(int src, int dest) const
 	return nodes[dest].getLink(src);
 }
 
+}

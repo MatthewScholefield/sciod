@@ -25,6 +25,9 @@
 
 using namespace std;
 
+namespace sciod
+{
+
 NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs)
 {
 	create(numInputs, numHidden, numHidLayers, numOutputs);
@@ -110,6 +113,7 @@ float NeuralNet::squash(float val)
 }
 
 // TODO: Move to Row class
+
 float NeuralNet::calcNode(const Layer &row, const FloatVec &prevVals, int destId) const
 {
 	float activation = 0.f;
@@ -132,7 +136,7 @@ FloatVec NeuralNet::calcLayerOutputs(const Layer &row, const FloatVec &prevVals)
 
 float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 {
-	
+
 	assert(vals.out.size() == layers.back().numNodes());
 	FloatVec2D nodeProb = calcProbFull(vals.in);
 	FloatVec2D actDeriv = nodeProb; // Assign to get correct size. Must reassign later
@@ -174,13 +178,13 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	for (int rowId = nodeProb.size() - 2; rowId >= 0; --rowId)
 	{
 		Layer &row = layers[rowId];
-		row.updateBiases(actDeriv[rowId+1], learningRate * 0.75f);
+		row.updateBiases(actDeriv[rowId + 1], learningRate * 0.75f);
 		for (int src = 0; src < row.numPrevNodes(); ++src)
 		{
 			for (int dest = 0; dest < row.numNodes(); ++dest)
 			{
 				float &link = row.getLinkRef(src, dest);
-				float deriv = nodeProb[rowId][src] * actDeriv[rowId+1][dest];
+				float deriv = nodeProb[rowId][src] * actDeriv[rowId + 1][dest];
 				link -= learningRate * deriv;
 			}
 		}
@@ -224,4 +228,6 @@ FloatVec NeuralNet::calcProb(const FloatVec &inputVals) const
 	for (auto &i : layers)
 		vals = calcLayerOutputs(i, vals);
 	return vals;
+}
+
 }

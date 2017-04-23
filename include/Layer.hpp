@@ -22,18 +22,22 @@
 
 #include "Node.hpp"
 
-class Layer
+namespace sciod
 {
-public:
-	Layer(int prevSize, int size);
-	size_t numNodes() const;
-	size_t numPrevNodes() const;
-	void randomize();
-	float getBias(size_t id) const;
-	void updateBiases(const FloatVec &outputs, float learningRate);
-	float &getLinkRef(int src, int dest);
-	float getLink(int src, int dest) const;
 
-private:
-	std::vector<Node> nodes;
-};
+	class Layer
+	{
+	public:
+		Layer(int prevSize, int size);
+		size_t numNodes() const;
+		size_t numPrevNodes() const;
+		void randomize();
+		float getBias(size_t id) const;
+		void updateBiases(const FloatVec &outputs, float learningRate);
+		float &getLinkRef(int src, int dest);
+		float getLink(int src, int dest) const;
+
+	private:
+		std::vector<Node> nodes;
+	};
+}

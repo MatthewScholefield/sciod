@@ -21,6 +21,7 @@
 #include "FloatVec.hpp"
 
 using namespace std;
+using namespace sciod;
 
 TEST_CASE("Simple 1", "[simple-1]")
 {
