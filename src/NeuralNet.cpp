@@ -28,6 +28,11 @@ using namespace std;
 namespace sciod
 {
 
+float squash(float val)
+{
+	return 1.f / (1 + exp(-val));
+}
+
 NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs)
 {
 	create(numInputs, numHidden, numHidLayers, numOutputs);
@@ -105,11 +110,6 @@ void NeuralNet::randomize()
 {
 	for (auto &i : layers)
 		i.randomize();
-}
-
-float NeuralNet::squash(float val)
-{
-	return 1.f / (1 + exp(-val));
 }
 
 // TODO: Move to Row class

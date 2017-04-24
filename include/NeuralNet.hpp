@@ -25,7 +25,8 @@
 
 namespace sciod
 {
-
+	float squash(float val);
+	
 	class NeuralNet
 	{
 	public:
@@ -42,7 +43,6 @@ namespace sciod
 
 	private:
 		float backPropagateStep(const FloatVecIO &vals, float learningRate);
-		static float squash(float val);
 		float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
 		FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
 
