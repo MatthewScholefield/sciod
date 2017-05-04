@@ -12,6 +12,9 @@ subdir('include')
 subdir('src')
 subdir('test')
 
+dep = declare_dependency(link_with : lib,
+	include_directories : inc)
+
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(libraries : lib,
 				 version : '0.1',

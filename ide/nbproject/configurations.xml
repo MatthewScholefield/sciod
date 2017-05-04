@@ -102,7 +102,7 @@
       <folder path="f1">
         <ccTool>
           <incDir>
-            <pElem>../build/src/sciod@sta</pElem>
+            <pElem>../build/src/sciod@sha</pElem>
             <pElem>../build/src</pElem>
             <pElem>../src</pElem>
             <pElem>../build/include</pElem>
