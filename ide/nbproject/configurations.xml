@@ -5,10 +5,10 @@
                    displayName="Header Files"
                    projectFiles="true"
                    root="../include">
-      <itemPath>../include/FloatVec.hpp</itemPath>
-      <itemPath>../include/Layer.hpp</itemPath>
-      <itemPath>../include/NeuralNet.hpp</itemPath>
-      <itemPath>../include/Node.hpp</itemPath>
+      <itemPath>../include/sciod/FloatVec.hpp</itemPath>
+      <itemPath>../include/sciod/Layer.hpp</itemPath>
+      <itemPath>../include/sciod/NeuralNet.hpp</itemPath>
+      <itemPath>../include/sciod/Node.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="f1"
                    displayName="Source Files"
@@ -53,8 +53,8 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-std=c++14 -O3 -fstack-protector"/>
-        <element flagsID="1" commonFlags="-std=c++14 -O3 -fstack-protector -fPIC"/>
+        <element flagsID="0" commonFlags="-std=c++14 -O3 -fPIC -fstack-protector"/>
+        <element flagsID="1" commonFlags="-std=c++14 -O3 -fPIC -fstack-protector -fPIC"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>

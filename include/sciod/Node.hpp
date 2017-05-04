@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdlib>
 
-#include "FloatVec.hpp"
+#include "sciod/FloatVec.hpp"
 
 namespace sciod
 {

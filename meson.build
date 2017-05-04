@@ -6,8 +6,6 @@ project(
 	license: 'GPL-3.0'
 )
 
-inc = include_directories('include')
-
 subdir('include')
 subdir('src')
 subdir('test')

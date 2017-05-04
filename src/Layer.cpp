@@ -1,5 +1,5 @@
 #include <cassert>
-#include "Layer.hpp"
+#include "sciod/Layer.hpp"
 
 namespace sciod
 {

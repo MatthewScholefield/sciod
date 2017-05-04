@@ -1,6 +1,6 @@
 #include <cassert>
 #include <cstdlib>
-#include "Node.hpp"
+#include "sciod/Node.hpp"
 
 namespace sciod
 {

@@ -2,9 +2,9 @@
 
 #include <vector>
 #include <string>
-#include "Layer.hpp"
+#include "sciod/Layer.hpp"
 
-#include "FloatVec.hpp"
+#include "sciod/FloatVec.hpp"
 
 namespace sciod
 {

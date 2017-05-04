@@ -4,7 +4,7 @@
 #include <cassert>
 #include <valarray>
 #include <sstream>
-#include "NeuralNet.hpp"
+#include "sciod/NeuralNet.hpp"
 
 using namespace std;
 

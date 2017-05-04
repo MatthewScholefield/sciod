@@ -1,7 +1,7 @@
 #include <vector>
 #include "catch.hpp"
-#include "NeuralNet.hpp"
-#include "FloatVec.hpp"
+#include "sciod/NeuralNet.hpp"
+#include "sciod/FloatVec.hpp"
 
 using namespace std;
 using namespace sciod;
