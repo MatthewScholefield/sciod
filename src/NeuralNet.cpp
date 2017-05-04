@@ -197,7 +197,7 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 /* 
  * Returns Epoch
  */
-long NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate)
+long NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate, bool debug)
 {
 	long epoch = 0;
 	while (1)
@@ -207,6 +207,9 @@ long NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, fl
 		float error = 0.f;
 		for (auto &i : vals)
 			error += backPropagateStep(i, learningRate);
+		
+		if (debug && epoch % 1024)
+			cout << "Error: " << error << endl;
 
 		if (error < maxError)
 			return epoch;

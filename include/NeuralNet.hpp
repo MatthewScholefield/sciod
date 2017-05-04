@@ -37,7 +37,7 @@ namespace sciod
 		int getNumInputs() const;
 		int getNumOutputs() const;
 		void randomize();
-		long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f);
+		long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f, bool debug = false);
 		FloatVec2D calcProbFull(const FloatVec &inputVals) const;
 		FloatVec calcProb(const FloatVec &inputVals) const;
 
