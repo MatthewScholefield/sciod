@@ -177,7 +177,7 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	return error;
 }
 
-std::vector<FloatVecIO> NeuralNet::resolveConflicts(std::vector<FloatVecIO> vals)
+vector<FloatVecIO> NeuralNet::resolveConflicts(vector<FloatVecIO> vals)
 {
 	for (auto it = vals.begin(); it != vals.end(); ++it)
 		for (auto jt = it + 1; jt != vals.end();)
