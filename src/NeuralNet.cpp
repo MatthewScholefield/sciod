@@ -177,25 +177,51 @@ float NeuralNet::backPropagateStep(const FloatVecIO &vals, float learningRate)
 	return error;
 }
 
+std::vector<FloatVecIO> NeuralNet::resolveConflicts(std::vector<FloatVecIO> vals)
+{
+	for (auto it = vals.begin(); it != vals.end(); ++it)
+		for (auto jt = it + 1; jt != vals.end();)
+		{
+			if (it->in == jt->in)
+			{
+				for (size_t i = 0; i < jt->out.size(); ++i)
+					if (jt->out[i] > it->out[i])
+						it->out[i] = jt->out[i];
+				jt = vals.erase(jt);
+				continue;
+			}
+			++jt;
+		}
+	return vals;
+}
+
 /* 
  * Returns Epoch
  */
-long NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate, bool debug)
+BackPropResult NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate, bool debug)
 {
+	const float minDiff = 0.000001f;
+	const float avErrWeight = 0.95f;
+	float avErr = 0.f;
 	long epoch = 0;
+
+	const auto &adjVals = resolveConflicts(vals);
+
 	while (1)
 	{
 		++epoch;
 
-		float error = 0.f;
-		for (auto &i : vals)
-			error += backPropagateStep(i, learningRate);
-		
-		if (debug && epoch % 1024)
-			cout << "Error: " << error << endl;
+		float err = 0.f;
+		for (auto &i : adjVals)
+			err += backPropagateStep(i, learningRate);
 
-		if (error < maxError)
-			return epoch;
+		if (debug && epoch % 1024 == 0)
+			cout << "Error: " << err << endl;
+
+		if (err < maxError || abs(avErr - err) < minDiff)
+			return {epoch, err};
+
+		avErr = avErrWeight * avErr + (1 - avErrWeight) * err;
 	}
 }
 

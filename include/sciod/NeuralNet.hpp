@@ -10,6 +10,12 @@ namespace sciod
 {
 	float squash(float val);
 	
+	struct BackPropResult
+	{
+		long epoch;
+		float error;
+	};
+	
 	class NeuralNet
 	{
 	public:
@@ -20,11 +26,12 @@ namespace sciod
 		int getNumInputs() const;
 		int getNumOutputs() const;
 		void randomize();
-		long backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f, bool debug = false);
+		BackPropResult backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f, bool debug = false);
 		FloatVec2D calcProbFull(const FloatVec &inputVals) const;
 		FloatVec calcProb(const FloatVec &inputVals) const;
 
 	private:
+		std::vector<FloatVecIO> resolveConflicts(std::vector<FloatVecIO> vals);
 		float backPropagateStep(const FloatVecIO &vals, float learningRate);
 		float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
 		FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
