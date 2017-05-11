@@ -201,7 +201,7 @@ vector<FloatVecIO> NeuralNet::resolveConflicts(vector<FloatVecIO> vals)
 BackPropResult NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate, bool debug)
 {
 	const float minDiff = 0.000001f;
-	const float avErrWeight = 0.95f;
+	const float avErrWeight = 1.f - 5.f * maxError;
 	float avErr = 0.f;
 	long epoch = 0;
 
