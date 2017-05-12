@@ -23,8 +23,8 @@ namespace sciod
 		NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs);
 		void create(int numInputs, int numHidden, int numHidLayers, int numOutputs);
 		std::string toString() const;
-		int getNumInputs() const;
-		int getNumOutputs() const;
+		size_t getNumInputs() const;
+		size_t getNumOutputs() const;
 		void randomize();
 		BackPropResult backPropagate(const std::vector<FloatVecIO> &vals, float maxError = 0.001f, float learningRate = 0.5f, bool debug = false);
 		FloatVec2D calcProbFull(const FloatVec &inputVals) const;

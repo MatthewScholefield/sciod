@@ -77,16 +77,14 @@ string NeuralNet::toString() const
 	return ss.str();
 }
 
-int NeuralNet::getNumInputs() const
+size_t NeuralNet::getNumInputs() const
 {
-	assert(layers.size() > 0);
-	return layers[0].numPrevNodes();
+	return layers.size() == 0 ? 0 : layers[0].numPrevNodes();
 }
 
-int NeuralNet::getNumOutputs() const
+size_t NeuralNet::getNumOutputs() const
 {
-	assert(layers.size() > 0);
-	return layers.back().numNodes();
+	return layers.size() == 0 ? 0 : layers.back().numNodes();
 }
 
 void NeuralNet::randomize()
