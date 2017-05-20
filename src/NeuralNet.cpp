@@ -16,6 +16,17 @@ float squash(float val)
 	return 1.f / (1 + exp(-val));
 }
 
+float unsquash(float val)
+{
+	assert(val > 0.f);
+	return -log(1.f / val - 1.f);
+}
+
+float randFloat(float min, float max)
+{
+	return min + ((max - min) * rand()) / RAND_MAX;
+}
+
 NeuralNet::NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs)
 {
 	create(numInputs, numHidden, numHidLayers, numOutputs);
@@ -216,7 +227,7 @@ BackPropResult NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float ma
 		if (debug && epoch % 1024 == 0)
 			cout << "Error: " << err << endl;
 
-		if (err < maxError || abs(avErr - err) < minDiff)
+		if (err < maxError)// || abs(avErr - err) < minDiff)
 			return {epoch, err};
 
 		avErr = avErrWeight * avErr + (1 - avErrWeight) * err;

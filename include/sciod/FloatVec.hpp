@@ -11,6 +11,7 @@ namespace sciod
 
 	struct FloatVecIO
 	{
+		FloatVecIO() = default;
 		FloatVecIO(const FloatVec &in, const FloatVec &out);
 		FloatVec in, out;
 	};

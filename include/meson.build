@@ -1,5 +1,6 @@
 headers = [
 	'FloatVec.hpp',
+	'MetaNet.hpp',
 	'NeuralNet.hpp',
 	'Node.hpp',
 	'Layer.hpp'

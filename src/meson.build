@@ -1,6 +1,7 @@
 
 sources = [
 	'FloatVec.cpp',
+	'MetaNet.cpp',
 	'NeuralNet.cpp',
 	'Node.cpp',
 	'Layer.cpp'

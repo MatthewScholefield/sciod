@@ -9,6 +9,8 @@
 namespace sciod
 {
 	float squash(float val);
+	float unsquash(float val);
+	float randFloat(float min, float max);
 	
 	struct BackPropResult
 	{
@@ -18,6 +20,8 @@ namespace sciod
 	
 	class NeuralNet
 	{
+		friend class NetState;
+		friend class MetaNet;
 	public:
 		NeuralNet() = default;
 		NeuralNet(int numInputs, int numHidden, int numHidLayers, int numOutputs);
@@ -31,7 +35,7 @@ namespace sciod
 		FloatVec calcProb(const FloatVec &inputVals) const;
 
 	private:
-		std::vector<FloatVecIO> resolveConflicts(std::vector<FloatVecIO> vals);
+		static std::vector<FloatVecIO> resolveConflicts(std::vector<FloatVecIO> vals);
 		float backPropagateStep(const FloatVecIO &vals, float learningRate);
 		float calcNode(const Layer &prevRow, const FloatVec &prevVals, int id) const;
 		FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;

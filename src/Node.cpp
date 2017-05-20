@@ -1,16 +1,12 @@
 #include <cassert>
 #include <cstdlib>
 #include "sciod/Node.hpp"
+#include "sciod/NeuralNet.hpp"
 
 namespace sciod
 {
 
 Node::Node(int numLinks) : weights(numLinks, 0.f) { }
-
-static float randFloat(float min, float max)
-{
-	return min + ((max - min) * rand()) / RAND_MAX;
-}
 
 size_t Node::numLinks() const
 {
