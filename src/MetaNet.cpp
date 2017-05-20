@@ -127,7 +127,7 @@ void MetaNet::train()
 									FloatVecSingle(squash(bestAlpha)));
 
 			cout << state.getEpoch() << "-" << error << ", " << bestAlpha << endl;
-			if (bestAlpha <= 4.f * minAlpha || error < 0.0001f)
+			if (bestAlpha <= 4.f * minAlpha || error < 0.0001f || state.getEpoch() > 10000)
 				break;
 		}
 	}
