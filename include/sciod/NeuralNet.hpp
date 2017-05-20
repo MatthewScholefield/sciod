@@ -8,6 +8,7 @@
 
 namespace sciod
 {
+	class MetaNet;
 	float squash(float val);
 	float unsquash(float val);
 	float randFloat(float min, float max);
@@ -41,5 +42,7 @@ namespace sciod
 		FloatVec calcLayerOutputs(const Layer &prevRow, const FloatVec &prevVals) const;
 
 		std::vector<Layer> layers;
+		static MetaNet metaNet;
+		static bool mustTrain;
 	};
 }

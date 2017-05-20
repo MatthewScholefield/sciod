@@ -48,7 +48,7 @@ TEST_CASE("Simple 1", "[simple-1]")
 	REQUIRE(error < maxError);
 }
 
-TEST_CASE("Performance Test", "[performance-test]")
+/*TEST_CASE("Performance Test", "[performance-test]")
 {
 	const int seed = 1;
 	srand(seed);
@@ -82,14 +82,11 @@ TEST_CASE("Performance Test", "[performance-test]")
 		i.out.resize(outSize);
 		for (auto &j : i.out)
 			j = randFloat(0.f, 1.f);
-	}*/
+	}+/
 	
 	NeuralNet withMetaNet(data[0].in.size(), hiddenSize, numHidden, data[0].out.size());
 	withMetaNet.randomize();
 	NeuralNet withoutMetaNet(withMetaNet);
-
-	MetaNet meta(MetaNet::general);
-	meta.train();
 	
 	cout << "Testing normal..."  << endl;
 	auto withoutMeta = withoutMetaNet.backPropagate(data, 0.1f, 4.f, true);
@@ -102,4 +99,4 @@ TEST_CASE("Performance Test", "[performance-test]")
 	
 	REQUIRE(withMeta.epoch < withoutMeta.epoch);
 	REQUIRE(withMeta.error <= 0.1f);
-}
+}*/

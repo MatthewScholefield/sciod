@@ -6,10 +6,15 @@
 #include <sstream>
 #include "sciod/NeuralNet.hpp"
 
+#include "sciod/MetaNet.hpp"
+
 using namespace std;
 
 namespace sciod
 {
+
+MetaNet NeuralNet::metaNet(MetaNet::general);
+bool NeuralNet::mustTrain = true;
 
 float squash(float val)
 {
@@ -209,6 +214,12 @@ vector<FloatVecIO> NeuralNet::resolveConflicts(vector<FloatVecIO> vals)
  */
 BackPropResult NeuralNet::backPropagate(const vector<FloatVecIO> &vals, float maxError, float learningRate, bool debug)
 {
+	if (mustTrain)
+	{
+		mustTrain = false;
+		metaNet.train();
+	}
+	return metaNet.backProp(*this, vals, maxError, debug);
 	const float minDiff = 0.000001f;
 	const float avErrWeight = 1.f - 5.f * maxError;
 	float avErr = 0.f;

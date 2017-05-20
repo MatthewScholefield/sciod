@@ -126,8 +126,7 @@ void MetaNet::train()
 			trainingData.emplace_back(state.createInputs(error),
 									FloatVecSingle(squash(bestAlpha)));
 
-			if (bestAlpha != 0.5f)
-				cout << state.getEpoch() << "-" << error << ", " << bestAlpha << endl;
+			cout << state.getEpoch() << "-" << error << ", " << bestAlpha << endl;
 			if (bestAlpha <= 4.f * minAlpha || error < 0.0001f)
 				break;
 		}
