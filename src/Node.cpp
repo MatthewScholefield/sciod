@@ -5,7 +5,7 @@
 namespace sciod
 {
 
-Node::Node(int numLinks) : weights(numLinks, 0.f) { }
+Node::Node(int numLinks) : bias(0.f), weights(numLinks, 0.f) { }
 
 static float randFloat(float min, float max)
 {
