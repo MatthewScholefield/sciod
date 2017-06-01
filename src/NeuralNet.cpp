@@ -52,10 +52,10 @@ string NeuralNet::toString() const
 	for (int nodeNum = 0; moreNodes; ++nodeNum)
 	{
 		moreNodes = false;
-		for (size_t layerId = 0; layerId < layers.size(); ++layerId)
+		for (size_t layerId = 0; layerId <= layers.size(); ++layerId)
 		{
 			ss << '\t';
-			int size = layerId == 0 ? getNumInputs() : layers[layerId].numNodes();
+			int size = layerId == 0 ? getNumInputs() : layers[layerId - 1].numNodes();
 			if (nodeNum < size)
 			{
 				moreNodes = true;
@@ -73,6 +73,9 @@ string NeuralNet::toString() const
 			for (size_t dest = 0; dest < row.numNodes(); ++dest)
 				ss << nodeStr(layerId, src) << " - " << nodeStr(layerId + 1, dest) << ": "
 				<< row.getLink(src, dest) << endl;
+		ss << "== bias " << (layerId + 1) << " ==" << endl;
+		for (size_t dest = 0; dest < row.numNodes(); ++dest)
+			ss << "b" << dest << ": " << row.getBias(dest) << endl;
 	}
 	return ss.str();
 }
