@@ -30,7 +30,7 @@ float Node::getBias() const
 
 void Node::updateBias(float deriv, float learningRate)
 {
-	bias -= deriv * learningRate;
+	bias -= deriv * learningRate * 1.253;
 }
 
 float &Node::getLinkRef(size_t id)
